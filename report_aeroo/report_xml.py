@@ -39,6 +39,7 @@ import openerp.netsvc as netsvc
 from report_aeroo import Aeroo_report
 from openerp.report.report_sxw import rml_parse
 from openerp.report import interface
+from openerp.modules import module
 import base64, binascii
 import openerp.tools as tools
 import encodings
@@ -107,12 +108,7 @@ class report_xml(models.Model):
         expected_class = 'Parser'
 
         try:
-            ad = os.path.abspath(os.path.join(tools.ustr(config['root_path']), u'addons'))
-            mod_path_list = map(lambda m: os.path.abspath(tools.ustr(m.strip())), config['addons_path'].split(','))
-            mod_path_list.append(ad)
-            mod_path_list = list(set(mod_path_list))
-
-            for mod_path in mod_path_list:
+            for mod_path in module.ad_paths:
                 if os.path.lexists(mod_path+os.path.sep+path.split(os.path.sep)[0]):
                     filepath = mod_path+os.path.sep+path
                     filepath = os.path.normpath(filepath)
@@ -538,9 +534,9 @@ class report_xml(models.Model):
         if 'report_type' in vals and vals['report_type'] == 'aeroo':
             parser=rml_parse
             vals['auto'] = False
-            if vals['parser_state']=='loc' and vals['parser_loc']:
+            if vals.get('parser_state')=='loc' and vals.get('parser_loc'):
                 parser=self.load_from_file(vals['parser_loc'], vals['name'].lower().replace(' ','_')) or parser
-            elif vals['parser_state']=='def' and vals['parser_def']:
+            elif vals.get('parser_state')=='def' and vals.get('parser_def'):
                 parser=self.load_from_source(vals['parser_def']) or parser
             res_id = super(report_xml, self).create(vals)
             if vals.get('report_wizard'):
