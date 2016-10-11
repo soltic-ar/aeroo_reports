@@ -1,4 +1,4 @@
-[![Runbot Status](http://runbot.adhoc.com.ar/runbot/badge/flat/7/8.0.svg)](http://runbot.adhoc.com.ar/runbot/repo/github-com-ingadhoc-aeroo_reports-7)
+[![Runbot Status](http://runbot.adhoc.com.ar/runbot/badge/flat/11/8.0.svg)](http://runbot.adhoc.com.ar/runbot/repo/github-com-ingadhoc-aeroo_reports-11)
 [![Build Status](https://travis-ci.org/ingadhoc/aeroo_reports.svg?branch=8.0)](https://travis-ci.org/ingadhoc/aeroo_reports)
 [![Coverage Status](https://coveralls.io/repos/ingadhoc/aeroo_reports/badge.png?branch=8.0)](https://coveralls.io/r/ingadhoc/aeroo_reports?branch=8.0)
 [![Code Climate](https://codeclimate.com/github/ingadhoc/aeroo_reports/badges/gpa.svg)](https://codeclimate.com/github/ingadhoc/aeroo_reports)
