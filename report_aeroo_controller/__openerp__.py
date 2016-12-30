@@ -29,7 +29,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-################################################################################
+##########################################################################
 {
     'name': 'Aeroo Reports Web Controller',
     'category': 'Generic Modules/Aeroo Reports',
@@ -48,10 +48,10 @@ This module adds Aeroo Reports file mimetypes missing in core Odoo web controlle
     'depends': ['base'],
     'data': [
     ],
-    'qweb' : [
+    'qweb': [
     ],
     'license': 'GPL-3 or any later version',
-    'active': False,
     'application': True,
     'auto_install': True,
+    'installable': True,
 }

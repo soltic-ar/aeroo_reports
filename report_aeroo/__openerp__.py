@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
-################################################################################
-#                                                                       
+##########################################################################
+#
 # Copyright (C) 2009  Domsense s.r.l.
 # @authors: Simone Orsi
 #
@@ -31,7 +31,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
-################################################################################
+##########################################################################
 
 {
     'name': 'Aeroo Reports',
@@ -121,16 +121,15 @@ This module is based on the original work of Simone Orsi (Domsense)
     # because report_xml.search( return ids instead of a browse
     'depends': ['base', 'report_custom_filename'],
     'data': [
-             "report_view.xml",
-             "data/report_aeroo_data.xml", 
-             "wizard/add_print_button_view.xml",
-             "wizard/remove_print_button_view.xml",
-             "installer.xml",
-             "security/ir.model.access.csv"
-             ],
-    "license" : "GPL-3 or any later version",
+        "report_view.xml",
+        "data/report_aeroo_data.xml",
+        "wizard/add_print_button_view.xml",
+        "wizard/remove_print_button_view.xml",
+        "installer.xml",
+        "security/ir.model.access.csv"
+    ],
+    "license": "GPL-3 or any later version",
     'installable': True,
-    'active': False,
     'application': True,
     'auto_install': False,
 }

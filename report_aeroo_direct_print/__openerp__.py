@@ -75,7 +75,7 @@ For more reference visit - https://pypi.python.org/pypi/pycups
                    "security/security_rules.xml",
                    "security/ir.model.access.csv"],
     "license" : "GPL-3 or any later version",
-    'installable': True,
+    'installable': False,
     'application': True,
     'active': False,
     'external_dependencies': {
