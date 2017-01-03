@@ -30,8 +30,8 @@
                                 <field name="copies" attrs="{'invisible': [('report_name','in',['printscreen.list'])]}"/>
                                 <field name="report_wizard" attrs="{'invisible': [('report_name','in',['printscreen.list'])]}"/>
                                 <field name="type" invisible="1"/>
-                                <field name="in_format" required="1" on_change="change_input_format(in_format)"/>
-                                <field name="out_format" required="1" domain="[('compatible_types','=',in_format)]"/>                                
+                                <field name="in_format" attrs="{'required':[('report_type','=','aeroo')]}" on_change="change_input_format(in_format)"/>
+                                <field name="out_format" attrs="{'required':[('report_type','=','aeroo')]}" domain="[('compatible_types','=',in_format)]"/>
                             </group>
                             <group string="Stylesheet">
                                 <field name="styles_mode"/>
