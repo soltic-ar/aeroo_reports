@@ -116,10 +116,7 @@ This module is based on the original work of Simone Orsi (Domsense)
     'author': 'Alistek',
     'website': 'http://www.alistek.com',
     'complexity': "easy",
-    # TODO fix this dependency. The error is raised on some cases when calling
-    # report_custom_filename controller def index(self, action, token):
-    # because report_xml.search( return ids instead of a browse
-    'depends': ['base', 'report_custom_filename'],
+    'depends': ['base'],
     'data': [
         "report_view.xml",
         "data/report_aeroo_data.xml",
