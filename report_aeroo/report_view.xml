@@ -27,7 +27,8 @@
                             <group string="Template">
                                 <field name="tml_source"/>
                                 <field name="report_sxw_content_data" string="Template Content" attrs="{'invisible': [('tml_source','&lt;&gt;','database')],'required': [('tml_source','=','database'),('report_type','=','aeroo')]}"/>
-                                <field name="copies" attrs="{'invisible': [('report_name','in',['printscreen.list'])]}"/>
+                                <!-- este copies no es funcional salvo que este directprint, lo agregamos en base report to printer nosotros -->
+                                <!-- <field name="copies" attrs="{'invisible': [('report_name','in',['printscreen.list'])]}"/> -->
                                 <field name="report_wizard" attrs="{'invisible': [('report_name','in',['printscreen.list'])]}"/>
                                 <field name="type" invisible="1"/>
                                 <field name="in_format" attrs="{'required':[('report_type','=','aeroo')]}" on_change="change_input_format(in_format)"/>
