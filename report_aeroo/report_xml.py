@@ -382,7 +382,9 @@ class report_xml(models.Model):
     active = fields.Boolean('Active', help='Disables the report if unchecked.')
     report_wizard = fields.Boolean('Report Wizard',
         help='Adds a standard wizard when the report gets invoked.')
-    copies = fields.Integer(string='Number of Copies')
+    copies = fields.Integer(string='Number of Copies', help='Only available if output is a pdf')
+    copies_intercalate = fields.Boolean(
+        help='If true, then page order will be like "1, 2, 3; 1, 2, 3", if not it will be like "1, 1; 2, 2; 3, 3"')
     fallback_false = fields.Boolean('Disable Format Fallback', 
         help='Raises error on format convertion failure. Prevents returning original report file type if no convertion is available.')
     extras = fields.Char('Extra options', compute='_get_extras', method=True,

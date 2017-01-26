@@ -696,10 +696,33 @@ class Aeroo_report(report_sxw):
         return results
 
     def create_source_pdf(self, cr, uid, ids, data, report_xml, context=None):
+        a, b = self._create_source_pdf(cr, uid, ids, data, report_xml, context)
+
+        # if report_xml.out_format.code == 'oo-pdf':
+        copies = report_xml.copies
+        if b == 'pdf' and copies > 1:
+            copies_intercalate = report_xml.copies_intercalate
+            output = PdfFileWriter()
+            reader = PdfFileReader(StringIO(a))
+            if copies_intercalate:
+                for copy in range(copies):
+                    for page in range(reader.getNumPages()):
+                        output.addPage(reader.getPage(page))
+            else:
+                for page in range(reader.getNumPages()):
+                    for copy in range(copies):
+                        output.addPage(reader.getPage(page))
+            s = StringIO()
+            output.write(s)
+            a = s.getvalue()
+        return a, b
+
+    def _create_source_pdf(self, cr, uid, ids, data, report_xml, context=None):
         results = self._create_source(cr, uid, ids, data, report_xml, context) 
         if results and len(results)==1:
             return results[0]
         if results:
+            deferred = context.get('deferred_process')
             if deferred:
                 deferred.set_status(_('Concatenating single documents'))
             not_pdf = filter(lambda r: r[1]!='pdf', results)
@@ -722,6 +745,7 @@ class Aeroo_report(report_sxw):
             return results[0]
         docs_client = self.get_docs_conn(cr)
         if results and docs_client:
+            deferred = context.get('deferred_process')
             if deferred:
                 deferred.set_status(_('Concatenating single documents'))
             not_odt = filter(lambda r: r[1]!='odt', results)
