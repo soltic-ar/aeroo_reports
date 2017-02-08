@@ -42,11 +42,12 @@
       <field name="target">new</field>
     </record>
 
-    <record id="report_aeroo_installer_todo" model="ir.actions.todo">
+<!-- desactivamos el todo ya que lo mandamos configurado -->
+<!--     <record id="report_aeroo_installer_todo" model="ir.actions.todo">
         <field name="action_id" ref="action_report_aeroo_installer"/>
         <field name="sequence">3</field>
         <field name="type">automatic</field>
-    </record>
+    </record> -->
     
     <!--DOCS Config wizard -->
     
@@ -117,11 +118,12 @@
       <field name="target">new</field>
     </record>
 
-    <record id="docs_config_installer_todo" model="ir.actions.todo">
+<!-- desactivamos este todo ya que lo mandamos configurado -->
+<!--     <record id="docs_config_installer_todo" model="ir.actions.todo">
         <field name="action_id" ref="action_docs_config_installer"/>
         <field name="sequence">3</field>
         <field name="type">automatic</field>
-    </record>
+    </record> -->
 
     <record id="action_docs_config_wizard" model="ir.actions.act_window">
       <field name="name">Configure Aeroo DOCS connection</field>
