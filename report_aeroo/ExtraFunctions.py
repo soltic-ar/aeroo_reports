@@ -390,8 +390,8 @@ class ExtraFunctions(object):
         format = im.format.lower()
         # usamos dpi fijos porque si no en determinados casos nos achica mucho
         # las imagenes en los reportes
-        dpi_x, dpi_y = (96, 96)
         # dpi_x, dpi_y = map(float, im.info.get('dpi', (96, 96)))
+        dpi_x, dpi_y = map(float, (96, 96))
         try:
             if rotate!=None:
                 im=im.rotate(int(rotate))
