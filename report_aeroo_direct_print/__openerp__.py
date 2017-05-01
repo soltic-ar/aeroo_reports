@@ -77,7 +77,6 @@ For more reference visit - https://pypi.python.org/pypi/pycups
     "license" : "GPL-3 or any later version",
     'installable': False,
     'application': True,
-    'active': False,
     'external_dependencies': {
         'python': ['cups'],
     },

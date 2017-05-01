@@ -49,5 +49,4 @@ Using aeroo_docs daemon by Alistek, you can convert output to one of these (xls,
     'installable': False,
     'web': True,
     'application': True,
-    'active': False,
 }
