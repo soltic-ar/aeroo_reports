@@ -494,8 +494,15 @@ class Aeroo_report(report_sxw):
         if (aeroo_docs and not report_xml.process_sep or not aeroo_docs) and getattr(oo_parser, 'single', False):
             ids = [ids[0]]
         objects = self.getObjects_mod(cr, uid, ids, report_xml.report_type, context) or []
+        # Esto es un parche por error de odoo en report_sxw.py al hacer
+        # self.setCompany(objects[0].company_id) porque, como el registro
+        # tiene el campo company, solo agrega al contexto del reporte la
+        # compania del objeto y el usuario puede no tener permiso para dicha
+        # cia
+        objects_for_context = self.getObjects_mod(cr, 1, ids, report_xml.report_type, context) or []
         oo_parser.localcontext.update(context)
-        oo_parser.set_context(objects, data, ids, report_xml.report_type)
+        oo_parser.set_context(objects_for_context, data, ids, report_xml.report_type)
+        # oo_parser.set_context(objects, data, ids, report_xml.report_type)
 
         self.set_xml_data_fields(objects, oo_parser) # Get/Set XML
 
