@@ -45,7 +45,9 @@ check_deps(check_list)
 
 
 import installer
-import translate
+# sacamos esta modificacion de translate ya que no la usamos y rompe las
+# traducciones
+# import translate
 import report_xml
 import report_aeroo
 import wizard
