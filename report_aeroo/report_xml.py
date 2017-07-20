@@ -404,8 +404,8 @@ class report_xml(models.Model):
     ### ends Fields
     
     @api.model
-    def search(self, args, offset=0, limit=None, order=None, count=False, context=None):
-        orig_res = super(report_xml, self).search(args, offset=offset, limit=limit, order=order)
+    def search(self, args, offset=0, limit=None, order=None, count=False):
+        orig_res = super(report_xml, self).search(args, offset=offset, limit=limit, order=order, count=count)
         by_name = len(args) == 1 and [x for x in args if x[0] == 'report_name']
         if by_name and orig_res and 'print_id' not in self.env.context:
             report_name = by_name[0][2]
