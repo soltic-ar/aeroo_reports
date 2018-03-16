@@ -1,2 +1,2 @@
-git+https://github.com/aeroo/aeroolib.git
+git+https://github.com/aeroo/aeroolib.git@py2.x
 pycups
