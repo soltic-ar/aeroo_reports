@@ -8,7 +8,7 @@ odoo.define('report_aeroo.report', function(require){
 'use strict';
 
 var ActionManager= require('web.ActionManager');
-var crash_manager = require('web.crash_manager');
+// var crash_manager = require('web.crash_manager');
 var framework = require('web.framework');
 
 ActionManager.include({
@@ -38,7 +38,7 @@ ActionManager.include({
                 aeroo_url,
                 c_action.report_type
             ])},
-            error: crash_manager.rpc_error.bind(crash_manager),
+            // error: crash_manager.rpc_error.bind(crash_manager),
             success: function (){
                 if(c_action && options && !c_action.dialog){
                     options.on_close();
