@@ -245,8 +245,9 @@ class ReportAerooAbstract(models.AbstractModel):
             self.env, value, digits, grouping, monetary, dp, currency_obj)
 
     def _set_objects(self, model, docids):
-        _logger.exception(
-            'AEROO setobjects======================= %s - %s' % (model, docids))
+        _logger.log(
+            25, 'AEROO setobjects======================= %s - %s',
+            model, docids)
         lctx = self.localcontext
         lang = lctx['lang']
         objects = None
@@ -258,8 +259,8 @@ class ReportAerooAbstract(models.AbstractModel):
             objects = self.env.get(model).browse(docids)
         lctx['objects'] = objects
         lctx['o'] = objects and objects[0] or None
-        _logger.exception(
-            'AEROO setobjects======================= %s' % (lang,))
+        _logger.log(
+            25, 'AEROO setobjects======================= %s', lang)
 
     def test(self, obj):
         _logger.exception(
