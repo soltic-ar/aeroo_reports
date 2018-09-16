@@ -1,52 +1,50 @@
-//##############################################################################
-//
-// This file is part of Aeroo Reports software - for license refer LICENSE file  
-//
-//##############################################################################
-
-odoo.define('report_aeroo.report', function(require){
-'use strict';
-
-var ActionManager= require('web.ActionManager');
-// var crash_manager = require('web.crash_manager');
-var framework = require('web.framework');
-
-ActionManager.include({
-    ir_actions_report: function (action, options){
-        var self = this;
-        var c_action = _.clone(action);
-        if (c_action.report_type !== 'aeroo') {
-            return self._super(action, options);
-        }
-
-        framework.blockUI();
-        var aeroo_url = 'report/aeroo/' + c_action.report_name;
-        if (_.isUndefined(action.data) || _.isNull(action.data) || (_.isObject(action.data) && _.isEmpty(action.data))) {
-            if (action.context.active_ids) {
-                aeroo_url += '/' + c_action.context.active_ids.join(',');
-                // odoo does not send context if no data, but I find it quite useful to send it regardless data or no data
-                aeroo_url += '?context=' + encodeURIComponent(JSON.stringify(c_action.context));
-            }
-        }else{
-            aeroo_url += '/' + c_action.context.active_ids.join(',');
-            aeroo_url += '?options=' + encodeURIComponent(JSON.stringify(c_action.data));
-            aeroo_url += '&context=' + encodeURIComponent(JSON.stringify(c_action.context));
-        }
-        self.getSession().get_file({
-            url: aeroo_url,
-            data: {data: JSON.stringify([
-                aeroo_url,
-                c_action.report_type
-            ])},
-            // error: crash_manager.rpc_error.bind(crash_manager),
-            success: function (){
-                if(c_action && options && !c_action.dialog){
-                    options.on_close();
+odoo.define('report_aeroo.report', function (require) {
+    var ActionManager = require('web.ActionManager');
+    var core = require('web.core');
+    var crash_manager = require('web.crash_manager');
+    var framework = require('web.framework');
+    var trigger_download = function(session, response, c, action, options) {
+       session.get_file({
+            url: '/report/download',
+            data: {data: JSON.stringify(response)},
+            complete: framework.unblockUI,
+            error: c.rpc_error.bind(c),
+            success: function(){
+                if (action && options && !action.dialog) {
+                   options.on_close();
                 }
-            }
+            },
         });
-        framework.unblockUI();
-        return;
-    }
-});
+   };
+    ActionManager.include({
+        ir_actions_report: function(action, options) {
+            var self = this;
+            // aeroo reports
+            if ('report_type' in action && action.report_type === 'aeroo' ) {
+                framework.blockUI();
+                action = _.clone(action);
+                _t = core._t;
+                var report_url = '/report/aeroo/' + action.report_name;
+                // generic report: no query string
+                // particular: query string of action.data.form and context
+                if (!('data' in action) || !(action.data)) {
+                    if ('active_ids' in action.context) {
+                        report_url += "/" + action.context.active_ids.join(',');
+                        // odoo does not send context if no data, but I find it quite useful to send it regardless data or no data
+                        report_url += '?context=' + encodeURIComponent(JSON.stringify(action.context));
+                    }
+                } else {
+                    report_url += '/' + action.context.active_ids.join(',');
+                    report_url += "?options=" + encodeURIComponent(JSON.stringify(action.data));
+                    report_url += "&context=" + encodeURIComponent(JSON.stringify(action.context));
+                }
+                var response = [];
+                response[0] = report_url;
+                response[1] = action.report_type;
+                var c = crash_manager;
+                return trigger_download(self.getSession(), response, c, action, options);
+            }
+            return self._super(action, options);
+       }
+   });
 });
