@@ -83,7 +83,7 @@ class DocsConfigInstaller(models.TransientModel):
     
     @api.multi
     def check(self):
-        icp = self.env['ir.config_parameter']
+        icp = self.env['ir.config_parameter'].sudo()
         icp.set_param('aeroo.docs_enabled', str(self.enabled))
         icp.set_param('aeroo.docs_host', self.host)
         icp.set_param('aeroo.docs_port', self.port)
