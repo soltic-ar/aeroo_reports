@@ -46,7 +46,7 @@ class ReportAerooAbstract(models.AbstractModel):
     docs_client = None
 
     def __filter(self, val):
-        if isinstance(val, models.BaseModel):
+        if isinstance(val, models.BaseModel) and val:
             return val.name_get()[0][1]
         return _filter(val)
 
