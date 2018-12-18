@@ -12,7 +12,7 @@ import base64
 import lxml.etree
 import zipfile
 try:
-    from cStringIO import StringIO
+    from io import StringIO
 except ImportError:
     from StringIO import StringIO
 
