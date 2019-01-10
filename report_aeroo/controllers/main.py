@@ -52,6 +52,8 @@ class ReportController(main.ReportController):
         # Aeroo Reports starts here
         report_obj = request.env['ir.actions.report']
         report = report_obj._get_report_from_name(reportname)
+        if context.get('print_with_sudo'):
+            report = report.sudo()
         context['report_name'] = reportname
         res, extension, filename = report.with_context(context).render_aeroo(
             docids, data=data)
