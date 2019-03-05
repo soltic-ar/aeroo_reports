@@ -212,8 +212,14 @@ class Parser(models.AbstractModel):
         default=_get_default_outformat)
     report_wizard = fields.Boolean('Report Wizard',
         help='Adds a standard wizard when the report gets invoked.')
-    copies = fields.Integer(string='Number of Copies', default=1)
-    disable_fallback = fields.Boolean('Disable Format Fallback', 
+    copies = fields.Integer(
+        string='Number of Copies',
+        default=1,
+        help='Only available if output is a pdf')
+    copies_intercalate = fields.Boolean(
+        help='If true, then page order will be like "1, 2, 3; 1, 2, 3", if '
+        'not it will be like "1, 1; 2, 2; 3, 3"')
+    disable_fallback = fields.Boolean('Disable Format Fallback',
         help='Raises error on format convertion failure. Prevents returning \
               original report file type if no convertion is available.')
     extras = fields.Char('Extra options', compute='_get_extras', method=True,

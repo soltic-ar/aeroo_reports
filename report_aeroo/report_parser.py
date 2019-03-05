@@ -16,6 +16,8 @@ from aeroolib import __version__ as aeroolib_version
 from currency2text import supported_language, currency_to_text
 from .docs_client_lib import DOCSConnection
 from .exceptions import ConnectionError
+from PyPDF2 import PdfFileWriter, PdfFileReader
+from io import BytesIO
 
 from genshi.template.eval import StrictLookup
 
@@ -213,6 +215,26 @@ class ReportAerooAbstract(models.AbstractModel):
                                 out_mime=mime_dict[report.out_format.code],
                                 in_mime=mime_dict[report.in_format]
                                 )
+
+        # TODO this copies method could go to a generic module because it just
+        # manipulates the outgoing pdf report
+        if mime_dict[report.out_format.code] == 'pdf' and report.copies > 1:
+            output = PdfFileWriter()
+            reader = PdfFileReader(BytesIO(data))
+            copies_intercalate = report.copies_intercalate
+            copies = report.copies
+            if copies_intercalate:
+                for copy in range(copies):
+                    for page in range(reader.getNumPages()):
+                        output.addPage(reader.getPage(page))
+            else:
+                for page in range(reader.getNumPages()):
+                    for copy in range(copies):
+                        output.addPage(reader.getPage(page))
+            s = BytesIO()
+            output.write(s)
+            data = s.getvalue()
+
         return data
 
     def _get_lang(self, source='current'):
@@ -449,16 +471,6 @@ class ReportAerooAbstract(models.AbstractModel):
 
         if 'tz' not in self._context:
             self = self.with_context(tz=self.env.user.tz)
-
-        # TODO fix and implement, it raise an error if no records selected
-        # (docids=None)
-        # copies_ids = []
-        # if not report.report_wizard and report.id > 1:
-        #     copies = report.copies
-        #     while(copies):
-        #         copies_ids.extend(docids)
-        #         copies -= 1
-        # docids = copies_ids or docids
 
         # TODO we should propagate context in the proper way, just with self
         res = self.assemble_tasks(docids, data, report, self._context)
