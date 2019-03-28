@@ -473,7 +473,32 @@ class ReportAerooAbstract(models.AbstractModel):
             self = self.with_context(tz=self.env.user.tz)
 
         # TODO we should propagate context in the proper way, just with self
-        res = self.assemble_tasks(docids, data, report, self._context)
+
+        # agregamos el process_sep aca ya que necesitamos el doc convertido
+        # para poder unirlos
+        if report.process_sep and len(docids) > 1:
+            # por ahora solo soportamos process_sep para pdf, en version
+            # anterior tambien soportaba algun otro
+            code = report.out_format.code
+            if code != 'oo-pdf':
+                raise MissingError(_(
+                    'Process_sep not compatible with selected output format'))
+
+            results = []
+            for docid in docids:
+                results.append(
+                    self.assemble_tasks([docid], data, report, self._context))
+            output = PdfFileWriter()
+            for r in results:
+                reader = PdfFileReader(BytesIO(r[0]))
+                for page in range(reader.getNumPages()):
+                    output.addPage(reader.getPage(page))
+            s = BytesIO()
+            output.write(s)
+            data = s.getvalue()
+            res = data, results[0][1], results[0][2]
+        else:
+            res = self.assemble_tasks(docids, data, report, self._context)
         # TODO
         #_logger.info("End Aeroo Reports %s (%s), total elapsed time: %s" % (name, model), time() - aeroo_print.start_total_time), logging.INFO) # debug mode
 
