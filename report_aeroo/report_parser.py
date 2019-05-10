@@ -29,7 +29,45 @@ from odoo.tools.misc import formatLang as odoo_fl
 from odoo.tools.misc import format_date as odoo_fd
 from odoo.tools.safe_eval import safe_eval
 from odoo.modules import load_information_from_description_file
+from odoo.tools.misc import posix_to_ldml
 from odoo.exceptions import MissingError
+# for format_datetime
+from odoo.tools.misc import pycompat, DATE_LENGTH
+import babel.dates
+
+
+def format_datetime(env, value, lang_code=False, date_format=False):
+    '''
+        This is an adaptation of odoo format_date method but to format datetimes
+        TODO we should move it to another plase or make it simpler
+
+        :param env: an environment.
+        :param date, datetime or string value: the date to format.
+        :param string lang_code: the lang code, if not specified it is extracted from the
+            environment context.
+        :param string date_format: the format or the date (LDML format), if not specified the
+            default format of the lang.
+        :return: date formatted in the specified format.
+        :rtype: string
+    '''
+    if not value:
+        return ''
+    if isinstance(value, pycompat.string_types):
+        if len(value) < DATE_LENGTH:
+            return ''
+        if len(value) > DATE_LENGTH:
+            # a datetime, convert to correct timezone
+            value = fields.Datetime.from_string(value)
+            value = fields.Datetime.context_timestamp(env['res.lang'], value)
+        else:
+            value = fields.Datetime.from_string(value)
+
+    lang = env['res.lang']._lang_get(lang_code or env.context.get('lang') or 'en_US')
+    locale = babel.Locale.parse(lang.code)
+    if not date_format:
+        date_format = posix_to_ldml('%s %s' % (lang.date_format, lang.time_format), locale=locale)
+
+    return babel.dates.format_datetime(value, format=date_format, locale=locale)
 
 
 _logger = logging.getLogger(__name__)
@@ -265,8 +303,10 @@ class ReportAerooAbstract(models.AbstractModel):
         """ We add date and date_time for backwards compatibility. Odoo has
         split the method in two (formatlang and format_date)
         """
-        if date or date_time:
+        if date:
             return odoo_fd(self.env, value)
+        elif date_time:
+            return format_datetime(self.env, value)
         return odoo_fl(
             self.env, value, digits, grouping, monetary, dp, currency_obj)
 
