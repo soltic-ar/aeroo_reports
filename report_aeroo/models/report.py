@@ -207,7 +207,7 @@ class Parser(models.AbstractModel):
         help='Generate the report for each object separately, \
               then merge reports.')
     in_format = fields.Selection(selection='_get_in_mimetypes',
-        string='Template Mime-type', default='oo-odt')
+        string='Template Mime-type',)
     out_format = fields.Many2one('report.mimetypes', 'Output Mime-type',
         default=_get_default_outformat)
     report_wizard = fields.Boolean('Report Wizard',

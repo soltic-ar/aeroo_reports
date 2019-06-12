@@ -105,7 +105,7 @@
             </field>
         </record>
         <!--========================-->
-        <record id="view_company_form_aeroo" model="ir.ui.view">
+        <!-- <record id="view_company_form_aeroo" model="ir.ui.view">
             <field name="name">res.company.form</field>
             <field name="model">res.company</field>
 			<field name="inherit_id" ref="base.view_company_form"/>
@@ -116,7 +116,7 @@
                     </xpath>
                 </data>
             </field>
-        </record>
+        </record> -->
         <!--========================-->
         <record id="act_aeroo_report_search_view" model="ir.ui.view">
             <field name="name">ir.actions.report.aeroo.search</field>
@@ -127,10 +127,10 @@
                     <filter string="Aeroo Report" name="aeroo_report" domain="[('report_type','=', 'aeroo')]"/>
                 </field>
                 <group >
-                    <filter string="Template Mime-type" context="{'group_by':'in_format'}"/>
-                    <filter string="Output Mime-type" context="{'group_by':'out_format'}"/>
+                    <filter name="in_format" string="Template Mime-type" context="{'group_by':'in_format'}"/>
+                    <filter name="out_format" string="Output Mime-type" context="{'group_by':'out_format'}"/>
                     <separator orientation="vertical"/>
-                    <filter string="Template Source" context="{'group_by':'tml_source'}"/>
+                    <filter name="tml_source" string="Template Source" context="{'group_by':'tml_source'}"/>
                 </group>
             </field>
         </record>

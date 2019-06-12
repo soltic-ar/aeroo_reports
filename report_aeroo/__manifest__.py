@@ -7,7 +7,7 @@
 
 {
     'name': 'Aeroo Reports',
-    'version': '11.0.1.3.0',
+    'version': '12.0.1.0.0',
     'category': 'Generic Modules/Aeroo Reports',
     'summary': 'Enterprise grade reporting solution',
     'author': 'Alistek',
