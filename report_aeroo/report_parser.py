@@ -132,7 +132,10 @@ class ReportAerooAbstract(models.AbstractModel):
         tf.seek(0)
         im = Image.open(tf)
         format = im.format.lower()
-        dpi_x, dpi_y = map(float, im.info.get('dpi', (96, 96)))
+        # usamos dpi fijos porque si no en determinados casos nos achica o
+        # agranda mucho las imagenes en los reportes (al menos el logo)
+        # dpi_x, dpi_y = map(float, im.info.get('dpi', (96, 96)))
+        dpi_x, dpi_y = map(float, (96, 96))
         try:
             if rotate != None:
                 im = im.rotate(int(rotate))
