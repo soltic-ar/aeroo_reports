@@ -55,7 +55,7 @@ class MailTemplate(models.Model):
                     lang=template._context.get('lang'))
             for field in fields:
                 Template = Template.with_context(safe=field in {'subject'})
-                generated_field_values = Template.render_template(
+                generated_field_values = Template._render_template(
                     getattr(template, field), template.model, template_res_ids,
                     post_process=(field == 'body_html'))
                 for res_id, field_value in generated_field_values.items():
@@ -89,7 +89,7 @@ class MailTemplate(models.Model):
             if template.report_template:
                 for res_id in template_res_ids:
                     attachments = []
-                    report_name = self.render_template(
+                    report_name = self._render_template(
                         template.report_name, template.model, res_id)
                     report = template.report_template
                     report_service = report.report_name
