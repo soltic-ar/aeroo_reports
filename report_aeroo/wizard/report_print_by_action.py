@@ -14,7 +14,8 @@ _logger = logging.getLogger(__name__)
 
 class report_print_by_action(models.TransientModel):
     _name = 'aeroo.print_by_action'
-    
+    _description = 'aeroo.print_by_action'
+
     @api.multi
     def to_print(recs):
         valid_input = re.match('^\s*\[?\s*((\d+)(\s*,\s*\d+)*)\s*\]?\s*$',

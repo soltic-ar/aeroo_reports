@@ -83,6 +83,7 @@ mime_dict = {'oo-odt': 'odt',
 
 class ReportAerooAbstract(models.AbstractModel):
     _name = 'report.report_aeroo.abstract'
+    _description = 'report.report_aeroo.abstract'
     docs_client = None
 
     def __filter(self, val):
