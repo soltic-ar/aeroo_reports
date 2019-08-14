@@ -16,19 +16,28 @@ odoo.define("report_aeroo.report", function (require) {
             var type = "aeroo";
             var cloned_action = _.clone(actions);
 
-            if (_.isUndefined(cloned_action.data) ||
-                _.isNull(cloned_action.data) ||
-                (_.isObject(cloned_action.data) && _.isEmpty(cloned_action.data)))
-            {
-                if (cloned_action.context.active_ids) {
-                    url += "/" + cloned_action.context.active_ids.join(',');
-                    // odoo does not send context if no data, but I find it quite useful to send it regardless data or no data
-                    url += "?context=" + encodeURIComponent(JSON.stringify(cloned_action.context));
-                }
+            if (cloned_action.context.active_ids) {
+                url += "/" + cloned_action.context.active_ids.join(',');
+                // odoo does not send context if no data, but I find it quite useful to send it regardless data or no data
+                url += "?context=" + encodeURIComponent(JSON.stringify(cloned_action.context));
             } else {
                 url += "?options=" + encodeURIComponent(JSON.stringify(cloned_action.data));
                 url += "&context=" + encodeURIComponent(JSON.stringify(cloned_action.context));
             }
+            // esto es mas parecido a en otros modulos pero hace que, por ej, nuestro reporte de deuda deje de funcionar
+            // if (_.isUndefined(cloned_action.data) ||
+            //     _.isNull(cloned_action.data) ||
+            //     (_.isObject(cloned_action.data) && _.isEmpty(cloned_action.data)))
+            // {
+            //     if (cloned_action.context.active_ids) {
+            //         url += "/" + cloned_action.context.active_ids.join(',');
+            //         // odoo does not send context if no data, but I find it quite useful to send it regardless data or no data
+            //         url += "?context=" + encodeURIComponent(JSON.stringify(cloned_action.context));
+            //     }
+            // } else {
+            //     url += "?options=" + encodeURIComponent(JSON.stringify(cloned_action.data));
+            //     url += "&context=" + encodeURIComponent(JSON.stringify(cloned_action.context));
+            // }
 
             var blocked = !session.get_file({
                 url: url,
