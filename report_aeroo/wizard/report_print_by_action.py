@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 ################################################################################
 #
-#  This file is part of Aeroo Reports software - for license refer LICENSE file  
+#  This file is part of Aeroo Reports software - for license refer LICENSE file
 #
 ################################################################################
 
@@ -16,7 +16,6 @@ class report_print_by_action(models.TransientModel):
     _name = 'aeroo.print_by_action'
     _description = 'aeroo.print_by_action'
 
-    @api.multi
     def to_print(recs):
         valid_input = re.match('^\s*\[?\s*((\d+)(\s*,\s*\d+)*)\s*\]?\s*$',
                                                             recs[0].object_ids)
@@ -48,25 +47,25 @@ class report_print_by_action(models.TransientModel):
                 }
         _logger.exception('AEROO by_action======================= %s' % (res,))
         return res
-    
+
     @api.model
     def _get_model(self):
         rep_obj = self.env['ir.actions.report']
         report = rep_obj.browse(self.env.context['active_ids'])
         return report[0].model
-    
+
     @api.model
     def _get_last_ids(self):
         conds = [('name','=',self._get_model()),('create_uid','=',self.env.uid)]
         last_call = self.search(conds)
         return last_call and last_call[-1].object_ids or False
-        
+
     ### Fields
     name = fields.Text('Object Model', default=_get_model, readonly=True)
     object_ids = fields.Char('Object IDs', size=250, default=_get_last_ids,
         required=True, help="Single ID or number of comma separated record IDs")
     ### ends Fields
-        
+
     @api.model
     def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
                                                                 submenu=False):
@@ -76,7 +75,7 @@ class report_print_by_action(models.TransientModel):
             if report.report_name == 'aeroo.printscreen.list':
                 raise Warning(
                   _("Print Screen report does not support this functionality!"))
-        res = super(report_print_by_action, self).fields_view_get(view_id, 
+        res = super(report_print_by_action, self).fields_view_get(view_id,
                                     view_type, toolbar=toolbar, submenu=submenu)
         return res
 
