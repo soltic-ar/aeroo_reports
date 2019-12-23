@@ -45,7 +45,7 @@ class DocsConfigInstaller(models.TransientModel):
             return self._logo_image
 
     def _get_image_fn(recs):
-        self.ensure_one()
+        recs.ensure_one()
         recs.config_logo = recs._get_image()
 
     ### Fields
