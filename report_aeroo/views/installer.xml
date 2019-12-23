@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    
+
     <!--DOCS Config wizard -->
-    
+
     <record id="view_docs_config_installer" model="ir.ui.view">
       <field name="name">docs_config.installer.view</field>
       <field name="model">docs_config.installer</field>
@@ -65,7 +65,6 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">docs_config.installer</field>
       <field name="view_id" ref="view_docs_config_installer"/>
-      <field name="view_type">form</field>
       <field name="view_mode">form</field>
       <field name="target">new</field>
     </record>
@@ -80,7 +79,6 @@
       <field name="type">ir.actions.act_window</field>
       <field name="res_model">docs_config.installer</field>
       <field name="view_id" ref="view_docs_config_installer"/>
-      <field name="view_type">form</field>
       <field name="view_mode">form</field>
       <field name="target">new</field>
     </record>
