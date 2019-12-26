@@ -3,7 +3,6 @@ odoo.define("report_aeroo.report", function (require) {
 
     var core = require("web.core");
     var ActionManager = require("web.ActionManager");
-    var crash_manager = require("web.crash_manager");
     var framework = require("web.framework");
     var session = require("web.session");
     var _t = core._t;
@@ -11,6 +10,7 @@ odoo.define("report_aeroo.report", function (require) {
     ActionManager.include({
 
         _downloadReportAEROO: function (url, actions) {
+            var self = this;
             framework.blockUI();
             var def = $.Deferred();
             var type = "aeroo";
@@ -45,8 +45,8 @@ odoo.define("report_aeroo.report", function (require) {
                     data: JSON.stringify([url, type]),
                 },
                 success: def.resolve.bind(def),
-                error: function () {
-                    crash_manager.rpc_error.apply(crash_manager, arguments);
+                error: function (error) {
+                    self.call('crash_manager', 'rpc_error', error);
                     def.reject();
                 },
                 complete: framework.unblockUI,
